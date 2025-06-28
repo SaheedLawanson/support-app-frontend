@@ -55,7 +55,10 @@ export class BaseAPI {
       config: res.config,
     })
 
-    if (res.data.errors.includes('Unauthorized')) {
+    if (
+      res.data.errors.includes('Unauthorized') ||
+      res.data.errors.includes('Invalid or Expired token')
+    ) {
       localStorage.removeItem('token')
       router.clearRoutes()
       router.push('/sign-in')
