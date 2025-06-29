@@ -31,3 +31,20 @@ npm run dev
 ```sh
 npm run build
 ```
+
+## Test Credentials
+
+The application comes with pre-seeded test accounts:
+
+### Customer Account
+
+- **Email**: `saheedlawanson47+customer@gmail.com`
+- **Password**: `Password123!`
+
+### Agent Accounts
+
+- **Email**: `saheedlawanson47+agent@gmail.com`
+- **Password**: `Password123!`
+
+- **Email**: `saheedlawanson47+agent2@gmail.com`
+- **Password**: `Password123!`
