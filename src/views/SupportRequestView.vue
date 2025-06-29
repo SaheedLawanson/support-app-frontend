@@ -14,6 +14,7 @@ import CommentApi from '@/api/comment.api'
 import { useToast } from 'vue-toastification'
 import AuthApi from '@/api/auth.api'
 import { useAuthStore } from '@/stores/user'
+import { useRouter } from 'vue-router'
 
 const activeRequestIndex = ref(0)
 const requests = ref<SupportRequest[]>([])
@@ -22,7 +23,6 @@ const error = ref<string | null>(null)
 const comments = ref<Comment[]>([])
 const isLoadingComments = ref(false)
 const toast = useToast()
-
 const activeTicket = ref<SupportRequest | null>(null)
 const userStore = useAuthStore()
 
@@ -115,7 +115,6 @@ onMounted(async () => {
   <div v-else-if="error" class="p-4 text-center text-red-500">
     {{ error }}
   </div>
-
   <!-- Ticket List -->
   <SupportRequestContainer v-else-if="requests.length > 0">
     <!-- Header -->

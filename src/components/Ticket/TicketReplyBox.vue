@@ -9,6 +9,7 @@ const text = ref('')
 
 const onSubmit = () => {
   props.handleSubmit(text.value)
+  text.value = ''
 }
 </script>
 
@@ -22,19 +23,7 @@ const onSubmit = () => {
         rows="4"
         placeholder="Type your message here..."
       ></textarea>
-      <div class="bg-gray-50 px-3 py-2 flex justify-between items-center">
-        <div class="flex space-x-2">
-          <button class="p-2 text-gray-500 hover:text-gray-700 rounded">
-            <div class="w-5 h-5 flex items-center justify-center">
-              <i class="pi pi-paperclip"></i>
-            </div>
-          </button>
-          <button class="p-2 text-gray-500 hover:text-gray-700 rounded">
-            <div class="w-5 h-5 flex items-center justify-center">
-              <i class="ri-emotion-line"></i>
-            </div>
-          </button>
-        </div>
+      <div class="bg-gray-50 px-3 py-2 flex justify-end items-center">
         <button
           @click.prevent="onSubmit"
           :disabled="text.length === 0"

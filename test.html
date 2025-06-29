@@ -1,834 +1,155 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Support Portal - User Type Selection</title>
-    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: { primary: '#4f46e5', secondary: '#1e40af' },
-            borderRadius: {
-              none: '0px',
-              sm: '4px',
-              DEFAULT: '8px',
-              md: '12px',
-              lg: '16px',
-              xl: '20px',
-              '2xl': '24px',
-              '3xl': '32px',
-              full: '9999px',
-              button: '8px',
-            },
-          },
-        },
-      }
-    </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
-      rel="stylesheet"
-    />
-    <style>
-      :where([class^='ri-'])::before {
-        content: '\f3c2';
-      }
-      body {
-        font-family: 'Inter', sans-serif;
-        background-color: #f9fafb;
-      }
-      .card-hover {
-        transition: all 0.3s ease;
-      }
-      .card-hover:hover {
-        transform: translateY(-5px);
-        box-shadow:
-          0 10px 25px -5px rgba(0, 0, 0, 0.1),
-          0 10px 10px -5px rgba(0, 0, 0, 0.04);
-      }
-      .custom-checkbox {
-        appearance: none;
-        -webkit-appearance: none;
-        width: 1.25rem;
-        height: 1.25rem;
-        border: 2px solid #d1d5db;
-        border-radius: 4px;
-        background-color: white;
-        cursor: pointer;
-        position: relative;
-      }
-      .custom-checkbox:checked {
-        background-color: #4f46e5;
-        border-color: #4f46e5;
-      }
-      .custom-checkbox:checked::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 0.5rem;
-        height: 0.5rem;
-        border-radius: 1px;
-        background-color: white;
-      }
-      input[type='text'],
-      input[type='email'],
-      input[type='password'],
-      select {
-        width: 100%;
-        padding: 0.5rem 0.75rem;
-        border: 1px solid #d1d5db;
-        border-radius: 0.375rem;
-        background-color: white;
-        font-size: 0.875rem;
-        line-height: 1.25rem;
-        color: #1f2937;
-        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-        outline: none;
-        transition:
-          border-color 0.15s ease-in-out,
-          box-shadow 0.15s ease-in-out;
-      }
-      input[type='text']:focus,
-      input[type='email']:focus,
-      input[type='password']:focus,
-      select:focus {
-        border-color: #4f46e5;
-        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-      }
-      .auth-container {
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 2rem;
-      }
-      .auth-card {
-        width: 100%;
-        max-width: 28rem;
-        background-color: white;
-        border-radius: 0.5rem;
-        box-shadow:
-          0 4px 6px -1px rgba(0, 0, 0, 0.1),
-          0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        padding: 2rem;
-      }
-    </style>
-  </head>
-  <body class="bg-gray-50">
-    <div class="auth-container">
-      <div class="mb-8 text-center">
-        <h1 class="text-3xl font-['Pacifico'] text-primary">logo</h1>
-        <h2 class="mt-2 text-xl font-semibold text-gray-800">Support Portal</h2>
-      </div>
-
-      <div class="text-center mb-6">
-        <p class="text-gray-600">Choose how you want to continue</p>
-      </div>
-
-      <div class="flex flex-col md:flex-row gap-6 w-full max-w-3xl">
-        <div
-          id="customer-card"
-          class="flex-1 bg-white rounded-lg shadow-md p-8 text-center card-hover cursor-pointer border-2 border-transparent hover:border-primary"
-        >
-          <div
-            class="w-20 h-20 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-4"
-          >
-            <i class="ri-user-3-line ri-2x text-primary"></i>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-800 mb-2">I'm a Customer</h3>
-          <p class="text-gray-600 text-sm">Get help with your products, orders, or account</p>
+<div
+  id="newRequestModal"
+  class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50 hidden"
+>
+  <div class="bg-white rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+    <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+      <h3 class="text-lg font-medium text-gray-900">Create New Support Request</h3>
+      <button id="closeModalBtn" class="text-gray-400 hover:text-gray-500">
+        <div class="w-6 h-6 flex items-center justify-center">
+          <i class="ri-close-line"></i>
         </div>
-
-        <div
-          id="agent-card"
-          class="flex-1 bg-white rounded-lg shadow-md p-8 text-center card-hover cursor-pointer border-2 border-transparent hover:border-secondary"
-        >
-          <div
-            class="w-20 h-20 mx-auto bg-indigo-100 rounded-full flex items-center justify-center mb-4"
-          >
-            <i class="ri-customer-service-2-line ri-2x text-secondary"></i>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-800 mb-2">I'm a Support Agent</h3>
-          <p class="text-gray-600 text-sm">Access the agent portal to manage support requests</p>
-        </div>
-      </div>
+      </button>
     </div>
-
-    <!-- Customer Login Form (Hidden initially) -->
-    <div id="customer-login" class="auth-container hidden">
-      <div class="mb-6 text-center">
-        <h1 class="text-3xl font-['Pacifico'] text-primary">logo</h1>
-        <h2 class="mt-2 text-xl font-semibold text-gray-800">Customer Support Portal</h2>
-      </div>
-
-      <div class="auth-card">
-        <h3 class="text-xl font-semibold text-gray-800 mb-6 text-center">Sign In</h3>
-
-        <form>
-          <div class="mb-4">
-            <label for="customer-email" class="block text-sm font-medium text-gray-700 mb-1"
-              >Email</label
+    <div class="px-6 py-4">
+      <form>
+        <div class="space-y-6">
+          <div>
+            <label for="requestType" class="block text-sm font-medium text-gray-700 mb-1"
+              >Request Type</label
             >
             <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="ri-mail-line text-gray-400"></i>
-              </div>
-              <input
-                type="email"
-                id="customer-email"
-                class="pl-10"
-                placeholder="your.email@example.com"
-                required
-              />
-            </div>
-          </div>
-
-          <div class="mb-4">
-            <div class="flex items-center justify-between mb-1">
-              <label for="customer-password" class="block text-sm font-medium text-gray-700"
-                >Password</label
+              <select
+                id="requestType"
+                class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary rounded-md"
               >
-              <a href="#" class="text-xs text-primary hover:text-primary-dark">Forgot password?</a>
-            </div>
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="ri-lock-line text-gray-400"></i>
-              </div>
-              <input
-                type="password"
-                id="customer-password"
-                class="pl-10"
-                placeholder="••••••••"
-                required
-              />
-            </div>
-          </div>
-
-          <div class="flex items-center mb-6">
-            <input type="checkbox" id="remember-me" class="custom-checkbox" />
-            <label for="remember-me" class="ml-2 block text-sm text-gray-700">Remember me</label>
-          </div>
-
-          <button
-            type="submit"
-            class="w-full bg-primary text-white py-2 px-4 rounded-button hover:bg-primary-dark transition-colors duration-200 font-medium whitespace-nowrap"
-          >
-            Sign In
-          </button>
-        </form>
-
-        <div class="mt-6 text-center">
-          <p class="text-sm text-gray-600">
-            New customer?
-            <a
-              href="#"
-              id="create-account-link"
-              class="text-primary hover:text-primary-dark font-medium"
-              >Create Account</a
-            >
-          </p>
-        </div>
-
-        <div class="mt-8 pt-6 border-t border-gray-200 text-center">
-          <button
-            id="switch-to-agent"
-            class="text-sm text-gray-500 hover:text-gray-700 flex items-center justify-center mx-auto"
-          >
-            <i class="ri-customer-service-2-line mr-1"></i>
-            Switch to Agent Login
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Agent Login Form (Hidden initially) -->
-    <div id="agent-login" class="auth-container hidden">
-      <div class="mb-6 text-center">
-        <h1 class="text-3xl font-['Pacifico'] text-secondary">logo</h1>
-        <h2 class="mt-2 text-xl font-semibold text-gray-800">Agent Portal</h2>
-      </div>
-
-      <div class="auth-card">
-        <h3 class="text-xl font-semibold text-gray-800 mb-6 text-center">Agent Sign In</h3>
-
-        <form>
-          <div class="mb-4">
-            <label for="agent-id" class="block text-sm font-medium text-gray-700 mb-1"
-              >Agent ID</label
-            >
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="ri-user-3-line text-gray-400"></i>
-              </div>
-              <input type="text" id="agent-id" class="pl-10" placeholder="AG-12345" required />
-            </div>
-          </div>
-
-          <div class="mb-4">
-            <label for="agent-email" class="block text-sm font-medium text-gray-700 mb-1"
-              >Email</label
-            >
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="ri-mail-line text-gray-400"></i>
-              </div>
-              <input
-                type="email"
-                id="agent-email"
-                class="pl-10"
-                placeholder="agent@company.com"
-                required
-              />
-            </div>
-          </div>
-
-          <div class="mb-4">
-            <div class="flex items-center justify-between mb-1">
-              <label for="agent-password" class="block text-sm font-medium text-gray-700"
-                >Password</label
-              >
-              <a href="#" class="text-xs text-secondary hover:text-secondary-dark"
-                >Forgot password?</a
-              >
-            </div>
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="ri-lock-line text-gray-400"></i>
-              </div>
-              <input
-                type="password"
-                id="agent-password"
-                class="pl-10"
-                placeholder="••••••••"
-                required
-              />
-            </div>
-          </div>
-
-          <div class="mb-4">
-            <label for="two-factor" class="block text-sm font-medium text-gray-700 mb-1"
-              >Two-Factor Authentication Code</label
-            >
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="ri-shield-check-line text-gray-400"></i>
-              </div>
-              <input type="text" id="two-factor" class="pl-10" placeholder="000000" required />
-            </div>
-          </div>
-
-          <div class="flex items-center mb-6">
-            <input type="checkbox" id="remember-device" class="custom-checkbox" />
-            <label for="remember-device" class="ml-2 block text-sm text-gray-700"
-              >Remember this device</label
-            >
-          </div>
-
-          <button
-            type="submit"
-            class="w-full bg-secondary text-white py-2 px-4 rounded-button hover:bg-secondary-dark transition-colors duration-200 font-medium whitespace-nowrap"
-          >
-            Agent Sign In
-          </button>
-        </form>
-
-        <div class="mt-6 text-center">
-          <p class="text-sm text-gray-600">
-            Need an agent account?
-            <a
-              href="#"
-              id="request-agent-account"
-              class="text-secondary hover:text-secondary-dark font-medium"
-              >Request Access</a
-            >
-          </p>
-        </div>
-
-        <div class="mt-8 pt-6 border-t border-gray-200 text-center">
-          <button
-            id="switch-to-customer"
-            class="text-sm text-gray-500 hover:text-gray-700 flex items-center justify-center mx-auto"
-          >
-            <i class="ri-user-3-line mr-1"></i>
-            Switch to Customer Login
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Customer Registration Form (Hidden initially) -->
-    <div id="customer-registration" class="auth-container hidden">
-      <div class="mb-6 text-center">
-        <h1 class="text-3xl font-['Pacifico'] text-primary">logo</h1>
-        <h2 class="mt-2 text-xl font-semibold text-gray-800">Customer Support Portal</h2>
-      </div>
-
-      <div class="auth-card">
-        <h3 class="text-xl font-semibold text-gray-800 mb-6 text-center">
-          Create Customer Account
-        </h3>
-
-        <form>
-          <div class="mb-4">
-            <label for="customer-fullname" class="block text-sm font-medium text-gray-700 mb-1"
-              >Full Name</label
-            >
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="ri-user-3-line text-gray-400"></i>
-              </div>
-              <input
-                type="text"
-                id="customer-fullname"
-                class="pl-10"
-                placeholder="John Smith"
-                required
-              />
-            </div>
-          </div>
-
-          <div class="mb-4">
-            <label for="customer-reg-email" class="block text-sm font-medium text-gray-700 mb-1"
-              >Email</label
-            >
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="ri-mail-line text-gray-400"></i>
-              </div>
-              <input
-                type="email"
-                id="customer-reg-email"
-                class="pl-10"
-                placeholder="your.email@example.com"
-                required
-              />
-            </div>
-          </div>
-
-          <div class="mb-4">
-            <label for="customer-reg-password" class="block text-sm font-medium text-gray-700 mb-1"
-              >Password</label
-            >
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="ri-lock-line text-gray-400"></i>
-              </div>
-              <input
-                type="password"
-                id="customer-reg-password"
-                class="pl-10"
-                placeholder="••••••••"
-                required
-              />
-            </div>
-            <p class="mt-1 text-xs text-gray-500">
-              Password must be at least 8 characters and include a number and special character
-            </p>
-          </div>
-
-          <div class="mb-6">
-            <label
-              for="customer-confirm-password"
-              class="block text-sm font-medium text-gray-700 mb-1"
-              >Confirm Password</label
-            >
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="ri-lock-line text-gray-400"></i>
-              </div>
-              <input
-                type="password"
-                id="customer-confirm-password"
-                class="pl-10"
-                placeholder="••••••••"
-                required
-              />
-            </div>
-          </div>
-
-          <div class="flex items-center mb-6">
-            <input type="checkbox" id="terms-accept" class="custom-checkbox" required />
-            <label for="terms-accept" class="ml-2 block text-sm text-gray-700">
-              I accept the
-              <a href="#" class="text-primary hover:text-primary-dark">Terms of Service</a>
-              and
-              <a href="#" class="text-primary hover:text-primary-dark">Privacy Policy</a>
-            </label>
-          </div>
-
-          <button
-            type="submit"
-            class="w-full bg-primary text-white py-2 px-4 rounded-button hover:bg-primary-dark transition-colors duration-200 font-medium whitespace-nowrap"
-          >
-            Create Account
-          </button>
-        </form>
-
-        <div class="mt-6 text-center">
-          <p class="text-sm text-gray-600">
-            Already have an account?
-            <a href="#" id="back-to-login" class="text-primary hover:text-primary-dark font-medium"
-              >Sign In</a
-            >
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Agent Registration Form (Hidden initially) -->
-    <div id="agent-registration" class="auth-container hidden">
-      <div class="mb-6 text-center">
-        <h1 class="text-3xl font-['Pacifico'] text-secondary">logo</h1>
-        <h2 class="mt-2 text-xl font-semibold text-gray-800">Agent Portal</h2>
-      </div>
-
-      <div class="auth-card">
-        <h3 class="text-xl font-semibold text-gray-800 mb-4 text-center">Agent Registration</h3>
-        <p class="text-sm text-gray-600 mb-6 text-center">
-          All agent accounts require approval from a supervisor
-        </p>
-
-        <form>
-          <div class="mb-4">
-            <label for="agent-fullname" class="block text-sm font-medium text-gray-700 mb-1"
-              >Full Name</label
-            >
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="ri-user-3-line text-gray-400"></i>
-              </div>
-              <input
-                type="text"
-                id="agent-fullname"
-                class="pl-10"
-                placeholder="Jane Wilson"
-                required
-              />
-            </div>
-          </div>
-
-          <div class="mb-4">
-            <label for="agent-reg-email" class="block text-sm font-medium text-gray-700 mb-1"
-              >Professional Email</label
-            >
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="ri-mail-line text-gray-400"></i>
-              </div>
-              <input
-                type="email"
-                id="agent-reg-email"
-                class="pl-10"
-                placeholder="jane.wilson@company.com"
-                required
-              />
-            </div>
-          </div>
-
-          <div class="mb-4">
-            <label for="department" class="block text-sm font-medium text-gray-700 mb-1"
-              >Department</label
-            >
-            <div class="relative">
-              <select id="department" required>
-                <option value="" disabled selected>Select department</option>
-                <option value="technical">Technical Support</option>
-                <option value="billing">Billing Support</option>
-                <option value="account">Account Management</option>
-                <option value="product">Product Support</option>
+                <option>Technical Support</option>
+                <option>Billing Issue</option>
+                <option>Account Management</option>
+                <option>Product Inquiry</option>
+                <option>Other</option>
               </select>
-              <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                <i class="ri-arrow-down-s-line text-gray-400"></i>
+              <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                <div class="w-5 h-5 flex items-center justify-center text-gray-400">
+                  <i class="ri-arrow-down-s-line"></i>
+                </div>
               </div>
             </div>
           </div>
-
-          <div class="mb-4">
-            <label for="role" class="block text-sm font-medium text-gray-700 mb-1">Role</label>
-            <div class="relative">
-              <select id="role" required>
-                <option value="" disabled selected>Select role</option>
-                <option value="junior">Junior Agent</option>
-                <option value="senior">Senior Agent</option>
-                <option value="specialist">Specialist</option>
-                <option value="team-lead">Team Lead</option>
-              </select>
-              <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                <i class="ri-arrow-down-s-line text-gray-400"></i>
-              </div>
-            </div>
-          </div>
-
-          <div class="mb-4">
-            <label for="agent-reg-password" class="block text-sm font-medium text-gray-700 mb-1"
-              >Password</label
+          <div>
+            <label for="subject" class="block text-sm font-medium text-gray-700 mb-1"
+              >Subject</label
             >
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="ri-lock-line text-gray-400"></i>
-              </div>
-              <input
-                type="password"
-                id="agent-reg-password"
-                class="pl-10"
-                placeholder="••••••••"
-                required
-              />
-            </div>
-            <p class="mt-1 text-xs text-gray-500">
-              Password must be at least 12 characters with numbers, special characters, and mixed
-              case
-            </p>
+            <input
+              type="text"
+              id="subject"
+              class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"
+            />
           </div>
-
-          <div class="mb-4">
-            <label for="agent-confirm-password" class="block text-sm font-medium text-gray-700 mb-1"
-              >Confirm Password</label
-            >
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="ri-lock-line text-gray-400"></i>
-              </div>
-              <input
-                type="password"
-                id="agent-confirm-password"
-                class="pl-10"
-                placeholder="••••••••"
-                required
-              />
-            </div>
-          </div>
-
-          <div class="mb-4">
-            <label for="experience" class="block text-sm font-medium text-gray-700 mb-1"
-              >Professional Experience</label
+          <div>
+            <label for="description" class="block text-sm font-medium text-gray-700 mb-1"
+              >Description</label
             >
             <textarea
-              id="experience"
-              rows="3"
-              class="w-full border border-gray-300 rounded-md p-2 text-sm"
-              placeholder="Briefly describe your relevant experience and qualifications"
+              id="description"
+              rows="6"
+              class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"
             ></textarea>
+            <p class="mt-1 text-sm text-gray-500">
+              Please provide as much detail as possible about your issue.
+            </p>
           </div>
-
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Attachments</label>
+            <div
+              class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md"
+            >
+              <div class="space-y-1 text-center">
+                <div class="w-12 h-12 mx-auto flex items-center justify-center text-gray-400">
+                  <i class="ri-upload-cloud-line ri-2x"></i>
+                </div>
+                <div class="flex text-sm text-gray-600">
+                  <label
+                    for="file-upload"
+                    class="relative cursor-pointer bg-white rounded-md font-medium text-primary hover:text-primary-dark focus-within:outline-none"
+                  >
+                    <span>Upload files</span>
+                    <input
+                      id="file-upload"
+                      name="file-upload"
+                      type="file"
+                      class="sr-only"
+                      multiple
+                    />
+                  </label>
+                  <p class="pl-1">or drag and drop</p>
+                </div>
+                <p class="text-xs text-gray-500">PNG, JPG, PDF up to 10MB</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+            <div class="mt-1 flex items-center space-x-4">
+              <div class="flex items-center">
+                <input
+                  type="radio"
+                  id="priority-low"
+                  name="priority"
+                  value="low"
+                  class="custom-checkbox"
+                />
+                <label for="priority-low" class="ml-2 text-sm text-gray-700">Low</label>
+              </div>
+              <div class="flex items-center">
+                <input
+                  type="radio"
+                  id="priority-medium"
+                  name="priority"
+                  value="medium"
+                  class="custom-checkbox"
+                  checked
+                />
+                <label for="priority-medium" class="ml-2 text-sm text-gray-700">Medium</label>
+              </div>
+              <div class="flex items-center">
+                <input
+                  type="radio"
+                  id="priority-high"
+                  name="priority"
+                  value="high"
+                  class="custom-checkbox"
+                />
+                <label for="priority-high" class="ml-2 text-sm text-gray-700">High</label>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center">
+            <label class="switch mr-3">
+              <input type="checkbox" checked />
+              <span class="slider"></span>
+            </label>
+            <span class="text-sm text-gray-700"
+              >Email me when there are updates to this request</span
+            >
+          </div>
+        </div>
+        <div class="mt-6 flex justify-end space-x-3">
+          <button
+            type="button"
+            id="cancelBtn"
+            class="px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-button bg-white text-gray-700 hover:bg-gray-50 focus:outline-none whitespace-nowrap"
+          >
+            Cancel
+          </button>
           <button
             type="submit"
-            class="w-full bg-secondary text-white py-2 px-4 rounded-button hover:bg-secondary-dark transition-colors duration-200 font-medium whitespace-nowrap"
+            class="px-4 py-2 border border-transparent text-sm font-medium rounded-button shadow-sm text-white bg-primary hover:bg-primary-dark focus:outline-none whitespace-nowrap"
           >
-            Submit for Approval
+            Submit Request
           </button>
-        </form>
-
-        <div class="mt-6 text-center">
-          <p class="text-sm text-gray-600">
-            Already have an account?
-            <a
-              href="#"
-              id="back-to-agent-login"
-              class="text-secondary hover:text-secondary-dark font-medium"
-              >Sign In</a
-            >
-          </p>
         </div>
-      </div>
+      </form>
     </div>
-
-    <script id="authNavigation">
-      document.addEventListener('DOMContentLoaded', function () {
-        // Get all containers
-        const userTypeSelection = document.querySelector('.auth-container:not(.hidden)')
-        const customerLogin = document.getElementById('customer-login')
-        const agentLogin = document.getElementById('agent-login')
-        const customerRegistration = document.getElementById('customer-registration')
-        const agentRegistration = document.getElementById('agent-registration')
-
-        // Get all navigation buttons
-        const customerCard = document.getElementById('customer-card')
-        const agentCard = document.getElementById('agent-card')
-        const switchToAgent = document.getElementById('switch-to-agent')
-        const switchToCustomer = document.getElementById('switch-to-customer')
-        const createAccountLink = document.getElementById('create-account-link')
-        const requestAgentAccount = document.getElementById('request-agent-account')
-        const backToLogin = document.getElementById('back-to-login')
-        const backToAgentLogin = document.getElementById('back-to-agent-login')
-
-        // Helper function to show a specific container and hide others
-        function showContainer(container) {
-          ;[
-            userTypeSelection,
-            customerLogin,
-            agentLogin,
-            customerRegistration,
-            agentRegistration,
-          ].forEach((cont) => {
-            if (cont === container) {
-              cont.classList.remove('hidden')
-            } else {
-              cont.classList.add('hidden')
-            }
-          })
-        }
-
-        // Add click event listeners
-        customerCard.addEventListener('click', () => showContainer(customerLogin))
-        agentCard.addEventListener('click', () => showContainer(agentLogin))
-        switchToAgent.addEventListener('click', () => showContainer(agentLogin))
-        switchToCustomer.addEventListener('click', () => showContainer(customerLogin))
-        createAccountLink.addEventListener('click', () => showContainer(customerRegistration))
-        requestAgentAccount.addEventListener('click', () => showContainer(agentRegistration))
-        backToLogin.addEventListener('click', () => showContainer(customerLogin))
-        backToAgentLogin.addEventListener('click', () => showContainer(agentLogin))
-
-        // Add hover effects to cards
-        ;[customerCard, agentCard].forEach((card) => {
-          card.addEventListener('mouseenter', () => {
-            card.classList.add('shadow-lg')
-          })
-
-          card.addEventListener('mouseleave', () => {
-            card.classList.remove('shadow-lg')
-          })
-        })
-      })
-    </script>
-
-    <script id="formValidation">
-      document.addEventListener('DOMContentLoaded', function () {
-        const forms = document.querySelectorAll('form')
-
-        forms.forEach((form) => {
-          form.addEventListener('submit', function (e) {
-            e.preventDefault()
-
-            // Get all required inputs in the form
-            const requiredInputs = form.querySelectorAll('[required]')
-            let isValid = true
-
-            // Check if all required fields are filled
-            requiredInputs.forEach((input) => {
-              if (!input.value.trim()) {
-                isValid = false
-                input.classList.add('border-red-500')
-
-                // Add error message if it doesn't exist
-                const errorId = `${input.id}-error`
-                if (!document.getElementById(errorId)) {
-                  const errorMsg = document.createElement('p')
-                  errorMsg.id = errorId
-                  errorMsg.className = 'text-red-500 text-xs mt-1'
-                  errorMsg.textContent = 'This field is required'
-                  input.parentNode.appendChild(errorMsg)
-                }
-              } else {
-                input.classList.remove('border-red-500')
-
-                // Remove error message if it exists
-                const errorMsg = document.getElementById(`${input.id}-error`)
-                if (errorMsg) {
-                  errorMsg.remove()
-                }
-              }
-            })
-
-            // Check password fields match in registration forms
-            if (
-              form.contains(document.getElementById('customer-reg-password')) &&
-              form.contains(document.getElementById('customer-confirm-password'))
-            ) {
-              const password = document.getElementById('customer-reg-password').value
-              const confirmPassword = document.getElementById('customer-confirm-password').value
-
-              if (password !== confirmPassword) {
-                isValid = false
-                document.getElementById('customer-confirm-password').classList.add('border-red-500')
-
-                // Add error message if it doesn't exist
-                const errorId = 'password-match-error'
-                if (!document.getElementById(errorId)) {
-                  const errorMsg = document.createElement('p')
-                  errorMsg.id = errorId
-                  errorMsg.className = 'text-red-500 text-xs mt-1'
-                  errorMsg.textContent = 'Passwords do not match'
-                  document
-                    .getElementById('customer-confirm-password')
-                    .parentNode.appendChild(errorMsg)
-                }
-              }
-            }
-
-            if (
-              form.contains(document.getElementById('agent-reg-password')) &&
-              form.contains(document.getElementById('agent-confirm-password'))
-            ) {
-              const password = document.getElementById('agent-reg-password').value
-              const confirmPassword = document.getElementById('agent-confirm-password').value
-
-              if (password !== confirmPassword) {
-                isValid = false
-                document.getElementById('agent-confirm-password').classList.add('border-red-500')
-
-                // Add error message if it doesn't exist
-                const errorId = 'agent-password-match-error'
-                if (!document.getElementById(errorId)) {
-                  const errorMsg = document.createElement('p')
-                  errorMsg.id = errorId
-                  errorMsg.className = 'text-red-500 text-xs mt-1'
-                  errorMsg.textContent = 'Passwords do not match'
-                  document.getElementById('agent-confirm-password').parentNode.appendChild(errorMsg)
-                }
-              }
-            }
-
-            // If form is valid, show success message (in a real app, this would submit to server)
-            if (isValid) {
-              // Create success message
-              const successMsg = document.createElement('div')
-              successMsg.className = 'fixed inset-0 flex items-center justify-center z-50'
-              successMsg.innerHTML = `
-                                  <div class="absolute inset-0 bg-black bg-opacity-50"></div>
-                                  <div class="relative bg-white rounded-lg p-6 max-w-md w-full text-center shadow-xl">
-                                      <div class="w-16 h-16 mx-auto bg-green-100 rounded-full flex items-center justify-center mb-4">
-                                          <i class="ri-check-line ri-2x text-green-600"></i>
-                                      </div>
-                                      <h3 class="text-xl font-semibold text-gray-900 mb-2">Success!</h3>
-                                      <p class="text-gray-600 mb-6">${form.closest('#agent-registration') ? 'Your registration has been submitted for approval.' : 'You have successfully signed in.'}</p>
-                                      <button class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary-dark transition-colors duration-200 success-close">Continue</button>
-                                  </div>
-                              `
-
-              document.body.appendChild(successMsg)
-
-              // Add event listener to close button
-              document.querySelector('.success-close').addEventListener('click', function () {
-                successMsg.remove()
-              })
-            }
-          })
-
-          // Remove error styling on input
-          const inputs = form.querySelectorAll('input, select, textarea')
-          inputs.forEach((input) => {
-            input.addEventListener('input', function () {
-              if (input.value.trim()) {
-                input.classList.remove('border-red-500')
-
-                // Remove error message if it exists
-                const errorMsg = document.getElementById(`${input.id}-error`)
-                if (errorMsg) {
-                  errorMsg.remove()
-                }
-              }
-            })
-          })
-        })
-      })
-    </script>
-  </body>
-</html>
+  </div>
+</div>

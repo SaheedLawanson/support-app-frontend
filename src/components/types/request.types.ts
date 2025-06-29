@@ -32,11 +32,3 @@ export interface Comment {
     reference: string
   }
 }
-
-// Legacy interface for backward compatibility
-export interface LegacyComment {
-  id: string
-  fullName: string
-  text: string
-  createdAt: Date
-}

@@ -3,7 +3,7 @@ import type { PropType } from 'vue'
 import { ref } from 'vue'
 
 const props = defineProps({
-  activeTagIndex: {
+  activeTabIndex: {
     type: Number,
     default: 0,
   },
@@ -16,23 +16,16 @@ const props = defineProps({
     default: () => {},
   },
 })
-
-const activeTagIndex = ref(props.activeTagIndex)
-
-const handleTabClick = (index: number) => {
-  activeTagIndex.value = index
-  props.onTabClick(index)
-}
 </script>
 
 <template>
-  <div class="border-b border-gray-200 mb-6">
+  <div class="border-b border-gray-200 mb-6 cursor-pointer">
     <div class="flex space-x-8">
       <button
         v-for="(tab, index) in tabs"
-        @click="handleTabClick(index)"
+        @click.prevent="onTabClick(index)"
         :key="index"
-        :class="`${index === activeTagIndex ? 'border-b-2 border-primary' : ''} py-4 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap`"
+        :class="`${index === props.activeTabIndex ? 'border-b-2 border-primary' : ''} py-4 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap`"
       >
         {{ tab }}
       </button>

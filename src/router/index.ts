@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import SupportRequestView from '../views/SupportRequestView.vue'
-import SignInView from '../views/SignInView.vue'
-import HomeView from '../views/HomeView.vue'
-import InAppShell from '../components/inAppShell.vue'
+import SupportRequestView from '@/views/SupportRequestView.vue'
+import SignInView from '@/views/SignInView.vue'
+import HomeView from '@/views/HomeView.vue'
+import InAppShell from '@/components/inAppShell.vue'
+import CreateSupportRequestView from '../views/CreateSupportRequestView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,7 +14,10 @@ const router = createRouter({
       path: '/support-request',
       name: 'support-request',
       component: InAppShell,
-      children: [{ path: '', name: 'tickets', component: SupportRequestView }],
+      children: [
+        { path: '', name: 'tickets', component: SupportRequestView },
+        { path: 'create', name: 'create-ticket', component: CreateSupportRequestView },
+      ],
     },
   ],
 })
