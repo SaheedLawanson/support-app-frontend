@@ -37,6 +37,9 @@ export class BaseAPI {
     )
 
     this.axiosInstance.interceptors.response.use((response: AxiosResponse) => {
+      if (response?.data?.errors?.length > 0) {
+        this.handleErrorResponse({ response })
+      }
       console.log('Response Interceptor Success:', {
         status: response.status,
         data: response.data,
@@ -45,24 +48,16 @@ export class BaseAPI {
     }, this.handleErrorResponse.bind(this))
   }
 
-  public async handleErrorResponse(res: any): Promise<any> {
+  public async handleErrorResponse(err: any): Promise<any> {
+    const res = err.response as { data: { errors: { message: string }[] } }
     const router = useRouter()
-    console.error('Response Error:', {
-      message: res.message,
-      status: res.response?.status,
-      statusText: res.response?.statusText,
-      data: res.response?.data,
-      config: res.config,
-    })
+    console.error('Response Error:', res.data)
 
-    if (
-      res.data.errors.includes('Unauthorized') ||
-      res.data.errors.includes('Invalid or Expired token')
-    ) {
+    const apiErrors = res.data.errors.map((err) => err.message)
+    console.log('apiErrors:', apiErrors)
+
+    if (apiErrors.includes('Unauthorized') || apiErrors.includes('Invalid or Expired token')) {
       localStorage.removeItem('token')
-      router.clearRoutes()
-      router.push('/sign-in')
-
       throw new Error('Token expired. Please login again.')
     }
     throw new Error(res.data.errors[0].message)

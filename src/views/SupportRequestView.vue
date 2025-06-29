@@ -47,7 +47,7 @@ const fetchSupportRequests = async () => {
 
     let data: SupportRequest[] = []
 
-    if (userStore.user?.role === 'customer') {
+    if (userStore.user?.role === 'CUSTOMER') {
       data = await SupportRequestApi.getMySupportRequests()
     } else {
       data = await SupportRequestApi.getSupportRequests()
