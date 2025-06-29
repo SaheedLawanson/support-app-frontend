@@ -9,7 +9,7 @@ export const useAuthStore = defineStore('', {
   // could also be defined as
   // state: () => ({ count: 0 })
   actions: {
-    setUser(user: User) {
+    setUser(user: User | null) {
       this.user = user
     },
   },

@@ -162,7 +162,8 @@ onMounted(async () => {
           <TicketComment
             v-for="comment in comments"
             :key="comment.id"
-            :fullName="`${comment.user.firstName} ${comment.user.lastName}`"
+            :firstName="comment.user.firstName"
+            :lastName="comment.user.lastName"
             :text="comment.text"
             :createdAt="new Date(comment.createdAt)"
           />
